@@ -3,14 +3,17 @@ from nltk.corpus import brown
 import random
 from nltk.corpus import stopwords
 
-news_or_not =[]
-for category in brown.categories():
-    for fileid in brown.fileids(category):
-        if category == 'news':
-            news_or_not.append((brown.words(fileid), category))
-        else:
-            news_or_not.append((brown.words(fileid), 'non-news'))
+def create_news_or_not():
+    news_or_not =[]
+    for category in brown.categories():
+        for fileid in brown.fileids(category):
+            if category == 'news':
+                news_or_not.append((brown.words(fileid), category))
+            else:
+                news_or_not.append((brown.words(fileid), 'non-news'))
+    return news_or_not
 
+news_or_not = create_news_or_not()
 random.shuffle(news_or_not)
 feature_words = nltk.FreqDist(w.lower() for w in brown.words() if w not in stopwords.words('english') and w.isalnum())
 word_features = list(feature_words)[:2000]
